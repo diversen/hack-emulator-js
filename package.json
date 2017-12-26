@@ -1,0 +1,31 @@
+{
+  "name": "hack-emulator-js",
+  "version": "1.0.0",
+  "description": "a hack emulator for the nand2tetris project",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "hack-assembler": "^1.0.8",
+    "keypress": "^0.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diversen/hack-emulator-js.git"
+  },
+  "keywords": [
+    "nand2tetris",
+    "emulator"
+  ],
+  "author": "dennis iversen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/diversen/hack-emulator-js/issues"
+  },
+  "homepage": "https://github.com/diversen/hack-emulator-js#readme"
+}
