@@ -27,7 +27,7 @@ window.onload = () => {
         });
 
         setInterval(function () {
-            for (var i = 0; i < 100000; i++) {
+            for (var i = 0; i < 50000; i++) {
                 cpu.cycle()
             }
         }, 100)

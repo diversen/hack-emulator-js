@@ -355,7 +355,6 @@ function CPU() {
         this.currentPC = this.PC
         
         if (typeof this.ROM[this.PC] == 'undefined') {
-            console.log('End of instructions')
             return
         }
 
@@ -370,7 +369,9 @@ function CPU() {
 
         this.cyclesDone++
         if (this.cyclesDone % 100000 == 0) {
-            console.log(this.cyclesDone)
+            if (this.debug) {
+                console.log(this.cyclesDone)
+            }
         }
     }
 
