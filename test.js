@@ -2,15 +2,60 @@ var CPU = require('./cpu')
 
 window.onload = () => {
 
-    var run = document.getElementById("run")
-    run.addEventListener("click", function () {
-        var asm = document.getElementById('asm').value;
+    function handkeKeyDown (e) {
+        cpu.RAM[24576] = parseInt(e.keyCode)
+    }
+    
+    function handkeKeyUp () {
+        cpu.RAM[24576] = 0
+    }
+
+    var cpu
+    var intervalID
+    var running = false
+    var opcodes = parseInt(document.getElementById('opcodes').value)
+    var milli = parseInt(document.getElementById('milli').value)
+
+    document.getElementById('opcodes').addEventListener('input', function(e) {
+        opcodes = this.value
+    })
+
+    document.getElementById('milli').addEventListener('input', function(e) {
+        milli = this.value
+    })
+
+    document.getElementById("run").addEventListener("click", ()  => {
+        
+        console.log(opcodes, milli)
+        if (running) {
+            window.removeEventListener("keydown", handkeKeyDown, true)
+            window.removeEventListener("keyup", handkeKeyUp, true)
+            stopAnimation()
+            clearInterval(intervalID)
+            running = false
+        }
+
+        var asm = document.getElementById('asm').value
         setupHack(asm)
     })
 
-    var cpu
+    document.getElementById("stop").addEventListener("click", ()  => {
+        if (running) {
+            window.removeEventListener("keydown", handkeKeyDown, true)
+            window.removeEventListener("keyup", handkeKeyUp, true)
+            stopAnimation()
+            clearInterval(intervalID)
+            cpu = null
+            running = false
+        }
+    })
 
     function setupHack (asm) {
+        
+        if (running) {
+            return
+        }
+
         cpu = new CPU()
         cpu.CANVAS = document.getElementById("screen")
         cpu.CANVAS_CTX = cpu.CANVAS.getContext("2d")
@@ -18,25 +63,20 @@ window.onload = () => {
         cpu.loadROM(asm)
         cpu.debug = 0
 
-        window.addEventListener("keydown", (e) => {
-            cpu.RAM[24576] = e.keyCode
-        });
-        
-        window.addEventListener("keyup", (e) => {
-            cpu.RAM[24576] = 0
-        });
-
-        setInterval(function () {
-            for (var i = 0; i < 50000; i++) {
+        intervalID = setInterval(function () {
+            for (var i = 0; i < opcodes; i++) {
                 cpu.cycle()
             }
-        }, 100)
+        }, milli)
+
+        window.addEventListener("keydown", handkeKeyDown)
+        window.addEventListener("keyup", handkeKeyUp)
 
         startAnmation()
+        running = true
     }
     
     var requestId
-    var fps = 50
 
     function loopAnimation(time) {
         requestId = undefined

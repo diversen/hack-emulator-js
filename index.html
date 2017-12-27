@@ -1,9 +1,33 @@
+<!DOCTYPE html>
 <html>
+
+
 <head>
+    <title>Hack emulator written in javascript</title>
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
     <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
     <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
 </head>
+<style>
+    #screen {
+        border: 1px solid;
+
+    }
+
+    .control {
+        cursor: pointer
+    }
+
+    #asm {
+        height: 200px;
+        width: 50%
+    }
+
+    #opcodes,
+    #milli {
+        max-width: 50%
+    }
+</style>
 <script>
     // 24576 KBD
     var cpu
@@ -13,19 +37,29 @@
 
 <body>
     <div class="container">
-        <canvas id="screen" width=512 height=256></canvas>
 
-        <h3>Controls</h3>
-        <div id="controls">
-            <span style="cursor: pointer" id="run">Run program ▶</span>
+        <div class="row">
+            <div class="column">
+                <h3>Hack emulator</h3>
+                <canvas id="screen" width=512 height=256></canvas>
+                <div id="controls">
+                    <span class="control" id="run">Run ▶</span>
+                    <span class="control" id="stop">Stop ⏸</span>
+
+                </div>
+                <form>
+                    <label for="opcodes">Opcodes</label>
+                    <input type="text" id="opcodes" value="50000">
+                    <label for="opcodes">Per milli sconds</label>
+                    <input type="text" id="milli" value="100">
+                    <label for="asm">Assemble code</label>
+                    <textarea id="asm"></textarea>
+                </form>
+            </div>
+
         </div>
 
-        <form>
-            <legend>Load Hack assemble code into text area and press play above </legend>
-            <textarea id="asm" style="height:200px"></textarea>
-        </form>
     </div>
-
 </body>
 
 </html>
