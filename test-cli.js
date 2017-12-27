@@ -1,16 +1,40 @@
 var keypress = require('keypress');
-var cpu = require('./cpu')
+var hack = require('./index')
 
 
 
 keypress(process.stdin);
-var c = new cpu()
-c.debug = 1
-c.screen = 0
-c.loadROM()
+var h = new hack()
+h.debug = 1
+h.screen = 0
+h.loadROM(`// Adds 1 + ... + 100
+@i
+M=1 // i=1
+@sum
+M=0 // sum=0
+(LOOP)
+@i
+D=M // D=i
+@100
+D=D-A // D=i-100
+@END
+D;JGT // if (i-100)>0 goto END
+@i
+D=M // D=i
+@sum
+M=D+M // sum=sum+i
+@i
+M=M+1 // i=i+1
+@LOOP
+0;JMP // goto LOOP
+(END)
+@END
+0;JMP // infinite loop           // infinite loop
+
+`)
 
 process.stdin.on('keypress', function (ch, key) {
-    c.cycle()
+    h.cycle()
 });
 
 

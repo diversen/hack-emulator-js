@@ -1,16 +1,16 @@
-var CPU = require('./cpu')
+var Hack = require('./index')
 
 window.onload = () => {
 
     function handkeKeyDown (e) {
-        cpu.RAM[24576] = parseInt(e.keyCode)
+        hack.RAM[24576] = parseInt(e.keyCode)
     }
     
     function handkeKeyUp () {
-        cpu.RAM[24576] = 0
+        hack.RAM[24576] = 0
     }
 
-    var cpu
+    var hack
     var intervalID
     var running = false
     var opcodes = parseInt(document.getElementById('opcodes').value)
@@ -44,7 +44,7 @@ window.onload = () => {
             window.removeEventListener("keyup", handkeKeyUp, true)
             stopAnimation()
             clearInterval(intervalID)
-            cpu = null
+            hack = null
             running = false
         }
     })
@@ -55,20 +55,20 @@ window.onload = () => {
             return
         }
 
-        cpu = new CPU()
-        cpu.CANVAS = document.getElementById("screen")
-        cpu.CANVAS_CTX = cpu.CANVAS.getContext("2d")
-        cpu.CANVAS_DATA = cpu.CANVAS_CTX.getImageData(0, 0, cpu.CANVAS.width, cpu.CANVAS.height)
-        cpu.loadROM(asm)
-        cpu.debug = 0
+        hack = new Hack()
+        hack.CANVAS = document.getElementById("screen")
+        hack.CANVAS_CTX = hack.CANVAS.getContext("2d")
+        hack.CANVAS_DATA = hack.CANVAS_CTX.getImageData(0, 0, hack.CANVAS.width, hack.CANVAS.height)
+        hack.loadROM(asm)
+        hack.debug = 0
 
         intervalID = setInterval(function () {
             for (var i = 0; i < opcodes; i++) {
-                cpu.cycle()
+                hack.cycle()
             }
 
-            if (cpu.cyclesDone % 100000 == 0) {
-                document.getElementById('numOpcodes').innerHTML = cpu.cyclesDone
+            if (hack.cyclesDone % 100000 == 0) {
+                document.getElementById('numOpcodes').innerHTML = hack.cyclesDone
             }
         }, milli)
 
@@ -83,7 +83,7 @@ window.onload = () => {
 
     function loopAnimation(time) {
         requestId = undefined
-        cpu.updateCanvas()
+        hack.updateCanvas()
         startAnmation();
     }
 

@@ -1,6 +1,12 @@
+/**
+ * As the hack computer is quite small
+ * Everything is placed in this file
+ * CPU, RAM, ROM, Screen, Keyboard
+ */
+
 var assembler = require('hack-assembler')
 
-function CPU() {
+function Hack() {
 
     this.ROM = new Array(32767) // 0x0000 to 0x8000
     this.RAM = new Array(24576) // 0x0000 to 0x6000
@@ -126,93 +132,6 @@ function CPU() {
         }
     }
 
-    // Screen
-    this.SIZE_BITS = 512 * 256
-    this.SIZE_WORDS = this.SIZE_BITS / 16
-    this.SCREEN_RAM = 16384
-
-    this.CANVAS = null
-    this.CANVAS_CTX = null
-    this.CANVAS_DATA = null
-
-    function getBinVal(i) {
-        var bin = i.toString(2)
-        while (bin.length < 32) {
-            bin = "0" + bin
-        }
-        return bin
-    }
-    
-    function dec2bin(dec) {
-        var bin = (dec >>> 0).toString(2)
-        var bit32 = getBinVal(bin)
-        return bit32.substring(16,32)
-    
-    }
-
-    // Get X and Y position of the word on the image
-    // According to the position in RAM
-    // RAM[16384 + r*32 + c%16]
-    this.getImageRowColumn = function () {
-        var numWord = this.ARegister - this.SCREEN_RAM
-
-        var y = Math.floor(numWord*16/512)
-        var x = numWord*16%512
-
-        var xy = {x: x, y: y}
-
-        return xy
-    }
-
-    // Draw pixel on canvas
-    this.drawPixel = function (x, y, r, g, b, a) {
-
-        var index = (x + y * this.CANVAS.width) * 4;
-
-        this.CANVAS_DATA.data[index + 0] = r;
-        this.CANVAS_DATA.data[index + 1] = g;
-        this.CANVAS_DATA.data[index + 2] = b;
-        this.CANVAS_DATA.data[index + 3] = a;
-    }
-
-    this.updateImageData = function (val) {
-        
-        // get bin val
-        var rowColumn = this.getImageRowColumn()
-        var x = rowColumn.x
-        var y = rowColumn.y
-
-        var binVal = dec2bin(val)
-        var binAry = binVal.split('')
-
-        // console.log(rowColumn)
-        binAry.forEach((elem, i) => {
-            // console.log("dec:" , val, "bin:", binVal, "rowColumn", rowColumn, "x:", x, "y:", y)
-            if (elem == 1) {
-                this.drawPixel(x + 16- i, y, 0, 0, 0, 255)
-            } else {
-                this.drawPixel(x + 16 -i, y, 255, 255, 255, 0)
-            }
-        })
-    }
-
-    this.updateCanvas = function () {
-        this.CANVAS_CTX.putImageData(this.CANVAS_DATA, 0, 0);
-    }
-
-    this.screen = 1
-
-    // Set screen RAM for fast access
-    // As screen is updated often
-    this.setRAM = function (val) {
-        this.RAM[this.ARegister] = val
-        if (this.ARegister >= this.SCREEN_RAM && this.ARegister < this.KBD) {
-            if (this.screen) {
-                this.updateImageData(val)
-            }
-        }
-    }
-
     // Destination
     this.dest = {
         // '000': '0',
@@ -238,19 +157,19 @@ function CPU() {
         },
         // '101': 'AM',
         '101': (val) => {
-            
+
             this.setRAM(val)
             this.ARegister = val
         },
         // '110': 'AD',
         '110': (val) => {
-            
+
             this.DRegister = val
             this.ARegister = val
         },
         // '111': 'AMD'
         '111': (val) => {
-            
+
             this.DRegister = val
             this.setRAM(val)
             this.ARegister = val
@@ -304,6 +223,98 @@ function CPU() {
         }
     }
 
+
+    // Screen
+    this.SIZE_BITS = 512 * 256
+    this.SIZE_WORDS = this.SIZE_BITS / 16
+    this.SCREEN_RAM = 16384
+
+    this.CANVAS = null
+    this.CANVAS_CTX = null
+    this.CANVAS_DATA = null
+
+    function getBinVal(i) {
+        var bin = i.toString(2)
+        while (bin.length < 32) {
+            bin = "0" + bin
+        }
+        return bin
+    }
+
+    // Used for screen
+    // Screen operates bits
+    // 1 is on 0 is off
+    function dec2bin(dec) {
+        var bin = (dec >>> 0).toString(2)
+        var bit32 = getBinVal(bin)
+        return bit32.substring(16, 32)
+
+    }
+
+    // Get X and Y position of the word on the image
+    // According to the position in RAM
+    // RAM[16384 + r*32 + c%16]
+    this.getImageRowColumn = function () {
+        var numWord = this.ARegister - this.SCREEN_RAM
+
+        var y = Math.floor(numWord * 16 / 512)
+        var x = numWord * 16 % 512
+
+        var xy = { x: x, y: y }
+
+        return xy
+    }
+
+    // Draw pixel on canvas
+    this.drawPixel = function (x, y, r, g, b, a) {
+
+        var index = (x + y * this.CANVAS.width) * 4;
+
+        this.CANVAS_DATA.data[index + 0] = r;
+        this.CANVAS_DATA.data[index + 1] = g;
+        this.CANVAS_DATA.data[index + 2] = b;
+        this.CANVAS_DATA.data[index + 3] = a;
+    }
+
+    this.updateImageData = function (val) {
+
+        // get bin val
+        var rowColumn = this.getImageRowColumn()
+        var x = rowColumn.x
+        var y = rowColumn.y
+
+        var binVal = dec2bin(val)
+        var binAry = binVal.split('')
+
+        // console.log(rowColumn)
+        binAry.forEach((elem, i) => {
+            // console.log("dec:" , val, "bin:", binVal, "rowColumn", rowColumn, "x:", x, "y:", y)
+            if (elem == 1) {
+                this.drawPixel(x + 16 - i, y, 0, 0, 0, 255)
+            } else {
+                this.drawPixel(x + 16 - i, y, 255, 255, 255, 0)
+            }
+        })
+    }
+
+    this.updateCanvas = function () {
+        this.CANVAS_CTX.putImageData(this.CANVAS_DATA, 0, 0);
+    }
+
+    // Just in order to turn off screen
+    this.screen = 1
+
+    // Set screen RAM for fast access
+    // As screen is updated often
+    this.setRAM = function (val) {
+        this.RAM[this.ARegister] = val
+        if (this.ARegister >= this.SCREEN_RAM && this.ARegister < this.KBD) {
+            if (this.screen) {
+                this.updateImageData(val)
+            }
+        }
+    }
+
     // Instruction: ixxaccccccdddjjj
     // Get opcode
     // 0 = C instruction 
@@ -339,7 +350,7 @@ function CPU() {
         console.log('Ins ', ins)
         console.log('PC ', this.PC)
         console.log('After Parse')
-        
+
         console.log('ALUOut', this.ALUOut)
         console.log('AReg ', this.ARegister)
         console.log('DReg ', this.DRegister)
@@ -353,7 +364,7 @@ function CPU() {
 
     this.cycle = function () {
         this.currentPC = this.PC
-        
+
         if (typeof this.ROM[this.PC] == 'undefined') {
             return
         }
@@ -421,4 +432,4 @@ function CPU() {
     }
 }
 
-module.exports = CPU
+module.exports = Hack
