@@ -31,7 +31,6 @@ window.onload = () => {
         123: 152
     }
 
-
     function handkeKeyDown(e) {
         var keyCode = parseInt(e.keyCode)
         if (keyCode in keys) {

@@ -241,8 +241,8 @@ function Hack() {
         return bin
     }
 
-    // Used for screen
-    // Screen operates bits
+    // Used for the screen
+    // Screen operates bit patterns
     // 1 is on 0 is off
     function dec2bin(dec) {
         var bin = (dec >>> 0).toString(2)
@@ -286,9 +286,7 @@ function Hack() {
         var binVal = dec2bin(val)
         var binAry = binVal.split('')
 
-        // console.log(rowColumn)
         binAry.forEach((elem, i) => {
-            // console.log("dec:" , val, "bin:", binVal, "rowColumn", rowColumn, "x:", x, "y:", y)
             if (elem == 1) {
                 this.drawPixel(x + 16 - i, y, 0, 0, 0, 255)
             } else {
