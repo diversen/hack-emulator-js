@@ -8,7 +8,7 @@ It may take some seconds to load e.g. `pong`
 
 ## Build and watch example
 
-I uses `browserify`
+It uses `browserify`
 
     ./watch
 
