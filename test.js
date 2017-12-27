@@ -2,11 +2,47 @@ var Hack = require('./index')
 
 window.onload = () => {
 
-    function handkeKeyDown (e) {
-        hack.RAM[24576] = parseInt(e.keyCode)
+    // Hack special keys compared to ascii
+    var keys = {
+        13: 128,
+        8: 129,
+        37: 130,
+        38: 131,
+        39: 132,
+        40: 133,
+        36: 134,
+        35: 135,
+        33: 136,
+        24: 137,
+        45: 138,
+        46: 139,
+        27: 140,
+        112: 141,
+        113: 142,
+        114: 143,
+        115: 144,
+        116: 145,
+        117: 146,
+        118: 147,
+        119: 148,
+        120: 149,
+        121: 150,
+        122: 151,
+        123: 152
     }
-    
-    function handkeKeyUp () {
+
+
+    function handkeKeyDown(e) {
+        var keyCode = parseInt(e.keyCode)
+        // console.log(keyCode)
+        if (keyCode in keys) {
+            keyCode = keys[keyCode]
+        }
+        hack.RAM[24576] = keyCode
+        // console.log(keyCode)
+    }
+
+    function handkeKeyUp() {
         hack.RAM[24576] = 0
     }
 
@@ -16,16 +52,16 @@ window.onload = () => {
     var opcodes = parseInt(document.getElementById('opcodes').value)
     var milli = parseInt(document.getElementById('milli').value)
 
-    document.getElementById('opcodes').addEventListener('input', function(e) {
+    document.getElementById('opcodes').addEventListener('input', function (e) {
         opcodes = this.value
     })
 
-    document.getElementById('milli').addEventListener('input', function(e) {
+    document.getElementById('milli').addEventListener('input', function (e) {
         milli = this.value
     })
 
-    document.getElementById("run").addEventListener("click", ()  => {
-        
+    document.getElementById("run").addEventListener("click", () => {
+
         if (running) {
             window.removeEventListener("keydown", handkeKeyDown, true)
             window.removeEventListener("keyup", handkeKeyUp, true)
@@ -38,7 +74,7 @@ window.onload = () => {
         setupHack(asm)
     })
 
-    document.getElementById("stop").addEventListener("click", ()  => {
+    document.getElementById("stop").addEventListener("click", () => {
         if (running) {
             window.removeEventListener("keydown", handkeKeyDown, true)
             window.removeEventListener("keyup", handkeKeyUp, true)
@@ -49,8 +85,8 @@ window.onload = () => {
         }
     })
 
-    function setupHack (asm) {
-        
+    function setupHack(asm) {
+
         if (running) {
             return
         }
@@ -78,7 +114,7 @@ window.onload = () => {
         startAnmation()
         running = true
     }
-    
+
     var requestId
 
     function loopAnimation(time) {
@@ -89,7 +125,7 @@ window.onload = () => {
 
     function startAnmation() {
         if (!requestId) {
-           requestId = requestAnimationFrame(loopAnimation);
+            requestId = requestAnimationFrame(loopAnimation);
         }
     }
 
