@@ -34,12 +34,10 @@ window.onload = () => {
 
     function handkeKeyDown(e) {
         var keyCode = parseInt(e.keyCode)
-        // console.log(keyCode)
         if (keyCode in keys) {
             keyCode = keys[keyCode]
         }
         hack.RAM[24576] = keyCode
-        // console.log(keyCode)
     }
 
     function handkeKeyUp() {
