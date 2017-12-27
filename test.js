@@ -26,7 +26,6 @@ window.onload = () => {
 
     document.getElementById("run").addEventListener("click", ()  => {
         
-        console.log(opcodes, milli)
         if (running) {
             window.removeEventListener("keydown", handkeKeyDown, true)
             window.removeEventListener("keyup", handkeKeyUp, true)
@@ -66,6 +65,10 @@ window.onload = () => {
         intervalID = setInterval(function () {
             for (var i = 0; i < opcodes; i++) {
                 cpu.cycle()
+            }
+
+            if (cpu.cyclesDone % 100000 == 0) {
+                document.getElementById('numOpcodes').innerHTML = cpu.cyclesDone
             }
         }, milli)
 

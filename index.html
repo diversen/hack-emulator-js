@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html>
-
-
 <head>
     <title>Hack emulator written in javascript</title>
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
@@ -45,21 +43,19 @@
                 <div id="controls">
                     <span class="control" id="run">Run ▶</span>
                     <span class="control" id="stop">Stop ⏸</span>
+                    <span id="numOpcodes">0</span><b> Cycles</b>
 
                 </div>
                 <form>
                     <label for="opcodes">Opcodes</label>
                     <input type="text" id="opcodes" value="50000">
-                    <label for="opcodes">Per milli sconds</label>
+                    <label for="opcodes">Per milli seconds</label>
                     <input type="text" id="milli" value="100">
-                    <label for="asm">Assemble code</label>
+                    <label for="asm">Assemble code (e.g. Copy and insert <a href="pong.txt">Pong</a>)</label>
                     <textarea id="asm"></textarea>
                 </form>
             </div>
-
         </div>
-
     </div>
 </body>
-
 </html>
