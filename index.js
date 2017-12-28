@@ -8,8 +8,8 @@ var assembler = require('hack-assembler')
 
 function Hack() {
 
-    this.ROM = new Array(32767) // 0x0000 to 0x8000
-    this.RAM = new Array(24576) // 0x0000 to 0x6000
+    this.ROM = new Array(32767 + 1) // 0x0000 to 0x8000
+    this.RAM = new Array(24576 + 1) // 0x0000 to 0x6000
     this.RAM.fill(0)
 
     this.KBD = 24576    // Keyboard position in 0x6000
