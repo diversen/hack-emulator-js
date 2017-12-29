@@ -1,13 +1,13 @@
 {
   "name": "hack-emulator-js",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "a hack emulator for the nand2tetris project",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "dependencies": {
-    "hack-assembler": "^1.0.8",
+    "hack-assembler": "^2.0.0",
     "keypress": "^0.2.1"
   },
   "devDependencies": {},

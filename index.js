@@ -421,7 +421,7 @@ function Hack() {
 
     this.loadROM = function (str) {
         var ass = new assembler(str)
-        var bin = ass.getAssembleCode()
+        var bin = ass.getAssembledCode()
 
         var program = bin.split('\n')
         for (i = 0; i < program.length; i++) {

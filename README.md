@@ -15,4 +15,5 @@ It uses `browserify`
 ## License
 
 MIT © [Dennis Iversen](https://github.com/diversen)
+
  
