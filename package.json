@@ -1,6 +1,6 @@
 {
   "name": "hack-emulator-js",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "a hack emulator for the nand2tetris project",
   "main": "index.js",
   "directories": {
