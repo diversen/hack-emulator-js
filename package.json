@@ -7,7 +7,7 @@
     "test": "test"
   },
   "dependencies": {
-    "hack-assembler": "^2.0.0",
+    "hack-assembler": "^2.0.1",
     "keypress": "^0.2.1"
   },
   "devDependencies": {},
