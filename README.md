@@ -11,6 +11,10 @@ It may take some seconds to load e.g. `pong`
 It uses `browserify`
 
     ./watch
+    
+## Related
+
+[hack-assembler-js](https://github.com/diversen/hack-assembler-js)
 
 ## License
 
